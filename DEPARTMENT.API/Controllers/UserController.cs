@@ -1,4 +1,5 @@
 ﻿using DEPARTMENT.API.Business;
+using DEPARTMENT.API.Models;
 using DEPARTMENT.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -25,19 +26,19 @@ namespace DEPARTMENT.API.Controllers
 
         [AllowAnonymous]
         [HttpPost("AddUser")]
-        public User AddUser(User user)
+        public string AddUser([FromBody] UserApiModel user)
         {
             return business.AddUser(user);
         }
         [AllowAnonymous]
         [HttpPost("EditUser")]
-        public User EditUser([FromBody]User user)
+        public string EditUser([FromBody] UserApiModel user)
         {
             return business.EditUser(user);
         }
         [AllowAnonymous]
         [HttpPost("DeleteUser")]
-        public User DeleteUser([FromBody] string id)
+        public string DeleteUser([FromBody] string id)
         {
             return business.DeleteUser(id);
         }

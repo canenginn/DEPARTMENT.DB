@@ -1,6 +1,8 @@
 ﻿using DEPARTMENT.DB;
 using DEPARTMENT.DB.Models;
+using DEPARTMENT.API.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+
 
 namespace DEPARTMENT.API.Business
 {
@@ -12,28 +14,35 @@ namespace DEPARTMENT.API.Business
         }
 
         public List<User> GetUser() {
-            var user = context.Users.ToList();
+            var user = context.Users.Where(x => x.isDeleted == false).ToList();
             return user;
         }
-        public User AddUser(User user)
+        public string AddUser(UserApiModel user)
         {
-            // User newUser = new User();
-            //newUser.departmentId = user.departmentId;
-            //newUser.name = user.name;
-            //newUser.email = user.email;
-            //newUser.password = user.password;
-            //newUser.username = user.username;
-            //newUser.id = user.id;
-            //newUser.lastName = user.lastName;
-            //newUser.isDeleted = user.isDeleted;
-            //newUser.userTypeId = user.userTypeId;
+            User newUser = new User();
+            if (user != null)
+            {
+                newUser.departmentId = user.departmentId;
+                newUser.name = user.name;
+                newUser.email = user.email;
+                newUser.password = user.password;
+                newUser.username = user.username;
+                newUser.lastName = user.lastName;
+                newUser.isDeleted = user.isDeleted;
+                newUser.userTypeId = user.userTypeId;
 
-            context.Users.Add(user);
-            context.SaveChanges();
-            return user;
+                context.Users.Add(newUser);
+                context.SaveChanges();
+                return "Add is successfull";
+            }
+            else
+            {
+                return "Add is not successfull.";
+            }
+
 
         }
-        public User EditUser(User user)
+        public string EditUser(UserApiModel user)
         {
             User updateUser = context.Users.Where(x => x.id == user.id && x.isDeleted==false).FirstOrDefault();
             if (updateUser != null)
@@ -50,19 +59,24 @@ namespace DEPARTMENT.API.Business
 
                 context.Users.UpdateRange(updateUser);
                 context.SaveChanges();
+                return "Update is successful.";
+
             }
-            return updateUser;
+            return "Update is not successful.";
 
         }
-        public User DeleteUser(string id)
+        public string DeleteUser(string id)
         {
             User user = context.Users.Where(x => x.id == Convert.ToInt32(id) && x.isDeleted == false).FirstOrDefault();
             if (user != null)
-            {            
-                context.Users.Remove(user);
+            {
+                user.isDeleted = true;
+                context.Users.Update(user);
                 context.SaveChanges();
+                return "Delete is successfull";
             }
-            return user;
+            return "Delete is not successfull";
+
 
         }
     }

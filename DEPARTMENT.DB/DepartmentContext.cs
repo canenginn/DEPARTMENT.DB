@@ -15,6 +15,8 @@ namespace DEPARTMENT.DB
     public partial class DepartmentContext : DbContext
     {
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserType> UserTypes { get; set; }
+        public virtual DbSet<Department> Departments { get; set; }
  
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
