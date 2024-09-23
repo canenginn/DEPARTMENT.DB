@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+<html>
+<body onload="Get();">
+	<div class="row g-5 g-xl-8">
+
+		<div class="col-xl-6">
+			<!--begin::Statistics Widget 5-->
+			<a href="" class="card bg-primary hoverable card-xl-stretch mb-xl-8">
+			@* <a href="/Employee/Index" class="card bg-primary hoverable card-xl-stretch mb-xl-8"> *@
+				<!--begin::Body-->
+				<div class="card-body">
+					<i class="ki-duotone ki-people text-white fs-2x ms-n1">
+						<span class="path1"></span>
+						<span class="path2"></span>
+						<span class="path3"></span>
+						<span class="path4"></span>
+						<span class="path5"></span>
+					</i>
+					<div class="text-white fw-bold fs-2 mb-2 mt-5">Kullanıcılar</div>
+					<div class="fw-semibold text-white">Listele, Ekle, Sil, Düzenle</div>
+				</div>
+				<!--end::Body-->
+			</a>
+			<!--end::Statistics Widget 5-->
+		</div>
+		<div class="col-xl-6">
+			<!--begin::Statistics Widget 5-->
+			<a href="" class="card bg-success hoverable card-xl-stretch mb-5 mb-xl-8">
+				<!--begin::Body-->
+				<div class="card-body">
+					<i class="ki-duotone ki-category text-white fs-2x ms-n1">
+						<span class="path1"></span>
+						<span class="path2"></span>
+						<span class="path3"></span>
+						<span class="path4"></span>
+					</i>
+					<div class="text-white fw-bold fs-2 mb-2 mt-5">Departmanlar</div>
+					<div class="fw-semibold text-white">Listele, Ekle, Sil, Düzenle</div>
+				</div>
+				<!--end::Body-->
+			</a>
+			<!--end::Statistics Widget 5-->
+		</div>
+	</div>
+
+	<div class="card mb-5 mb-xl-8">
+
+		<!--begin::Body-->
+		<div class="card-body py-3">
+			<!--begin::Table container-->
+			<div class="table-responsive">
+				<!--begin::Table-->
+				<table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="DTUser">
+					<!--begin::Table head-->
+					<thead>
+						<tr class="fw-bold text-muted">
+							<th class="min-w-100px">Kullanıcı Adı</th>
+							<th class="min-w-200px">Ad</th>
+							<th class="min-w-130px">Soyad</th>
+							<th class="min-w-130px">Mail</th>
+							<th class="min-w-100px">Departman</th>
+							<th class="min-w-100px">Rol</th>
+							<th class="min-w-80px text-end"></th>
+						</tr>
+					</thead>
+					<!--end::Table head-->
+					<!--begin::Table body-->
+					<tbody>
+					</tbody>
+					<!--end::Table body-->
+				</table>
+				<!--end::Table-->
+			</div>
+			<!--end::Table container-->
+		</div>
+		<!--begin::Body-->
+	</div>
+</body>
+
+
+</html>
+
+<script>
+    function Get() {
+        $.ajax({
+            url: '/Home/GetUsers',
+            type: "GET",
+            data: {},
+            success: function (data) {
+
+                $('#DTUser').DataTable().rows().remove().draw();
+                console.log(data);
+                if (data != null) {
+
+                    $.each(data, function (i, item) {
+
+						$('#DTUser').DataTable().row.add($('<tr style="color:dark; justify-content:center; vertical-align:middle; align-items:center; text-align:center;" class="fs-7 border-bottom-0">' +
+
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.username] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.name] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.lastName] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.email] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.departmentId] + '</div></div></td>' +
+
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.userTypeId] + '</div></div></td>' +
+
+
+                            '<td><div class="d-flex justify-content-end flex-shrink-0">' +
+                            '<a href="#" onclick="LoadEmpData(\'' + [item.name] + '\',\'' + [item.lastname] + '\',\'' + [item.department] + '\')"  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">' +
+                            '<i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>' +
+                            '</a>' +
+                            '<a href="#" onclick="Delete(' + [item.id] + ')" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1">' +
+                            '<i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>' +
+                            '</a>' +
+                            '</div></td>' +
+
+                            '</tr>')).draw();
+
+
+                    });
+
+                }
+            }
+        });
+    }
+</script>

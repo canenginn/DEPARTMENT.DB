@@ -10,5 +10,6 @@ namespace DEPARTMENT.DB.Models
     {
         public int id { get; set; }
         public string? type { get; set; }
+        public bool isDeleted { get; set; }
     }
 }

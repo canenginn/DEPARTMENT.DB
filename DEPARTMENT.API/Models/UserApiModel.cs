@@ -16,7 +16,9 @@ namespace DEPARTMENT.API.Models
         public string? email { get; set; }
         public bool isDeleted { get; set; }
         public int departmentId { get; set; }
+        public DepartmentApiModel? Department { get; set; }
         public int userTypeId { get; set; }
+        public UserTypeApiModel? UserType { get; set; }
 
 
 

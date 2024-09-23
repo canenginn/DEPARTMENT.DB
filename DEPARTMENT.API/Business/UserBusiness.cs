@@ -2,20 +2,24 @@
 using DEPARTMENT.DB.Models;
 using DEPARTMENT.API.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 
 namespace DEPARTMENT.API.Business
 {
     public class UserBusiness
     {
-        DepartmentContext context;
+        private readonly DepartmentContext context;
+        private readonly IMapper _mapper;
         public UserBusiness() { 
             context = new DepartmentContext();
         }
 
         public List<User> GetUser() {
-            var user = context.Users.Where(x => x.isDeleted == false).ToList();
+            var user = context.Users.Where(x => x.isDeleted == false).Include(x => x.Department).Include(x => x.UserType).ToList();
             return user;
+
         }
         public string AddUser(UserApiModel user)
         {

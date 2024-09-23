@@ -16,7 +16,9 @@ namespace DEPARTMENT.DB.Models
         public string? email { get; set; }
         public bool isDeleted { get; set; } 
         public int departmentId { get; set; }
+        public Department? Department { get; set; }
         public int userTypeId { get; set; }
+        public UserType? UserType { get; set; }
 
 
 
