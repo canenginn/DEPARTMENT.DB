@@ -16,11 +16,11 @@ namespace DEPARTMENT.API.Controllers
         public UserController() { 
             business = new UserBusiness();  
         }
-
         [AllowAnonymous]
         [HttpGet("GetUsers")]
         public List<User> GetUsers()
         {
+           
             return business.GetUser();
         }
 

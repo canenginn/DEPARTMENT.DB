@@ -16,12 +16,14 @@ namespace DEPARTMENT.WEB.Models
         public string? email { get; set; }
         public bool isDeleted { get; set; }
         public int departmentId { get; set; }
+        public DepartmentWebModel? Department { get; set; }
         public int userTypeId { get; set; }
+		public UserTypeWebModel? UserType { get; set; }
 
 
 
 
 
 
-    }
+	}
 }

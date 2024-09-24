@@ -21,18 +21,11 @@ namespace DEPARTMENT.WEB.Controllers
 
 
 
-
         [HttpGet]
         public JsonResult GetUsers()
         {
             return Json(new UserBusiness().GetUsers());
         }
-
-
-
-
-
-
 
 
         public IActionResult Privacy()

@@ -1,6 +1,6 @@
 ﻿@using System.Security.Claims
 @{
-     string username = "";
+    string username = User.Claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
 
 }
 
@@ -111,7 +111,7 @@
                                             <div class="d-flex flex-column">
                                                 <div class="fw-bold d-flex align-items-center fs-6">
 
-                                                    ENGİN CAN
+                                                   @username
                                                 </div>
 
                                             </div>
@@ -220,3 +220,66 @@
 </body>
 <!--end::Body-->
 </html>
+<script>
+    function resetInputs(...inputIds) {
+        inputIds.forEach(id => {
+            var element = document.getElementById(id);
+            if (element) {
+                switch (element.type) {
+                    case 'text':
+                    case 'textarea':
+                    case 'password':
+                    case 'email':
+                    case 'number':
+                    case 'date':
+                    case 'url':
+                    case 'tel':
+                        element.value = '';
+                        break;
+                    case 'checkbox':
+                    case 'radio':
+                        element.checked = true;
+                        break;
+                    case 'select-one':
+                    case 'select-multiple':
+                        element.selectedIndex = -1;
+
+                        break;
+                    default:
+                        element.innerHTML = "";
+                        break;
+                }
+            }
+        });
+    }
+
+    function initializeDataTable(tableId) {
+        $(tableId).DataTable({
+            "language": {
+                "lengthMenu": "Göster _MENU_",
+                "zeroRecords": "Kayıt bulunamadı",
+                "info": "_TOTAL_ kayıttan _START_ - _END_ arası gösteriliyor",
+                "infoEmpty": "Gösterilecek kayıt yok",
+                "infoFiltered": "(toplam _MAX_ kayıttan filtrelendi)",
+                "search": "Ara:",
+                "paginate": {
+                    "next": "Sonraki",
+                    "previous": "Önceki"
+                }
+            },
+            "dom":
+                "<'row mb-2'" +
+                "<'col-sm-6 d-flex align-items-center justify-content-start dt-toolbar'l>" +
+                "<'col-sm-6 d-flex align-items-center justify-content-end dt-toolbar'f>" +
+                ">" +
+                "<'table-responsive'tr>" +
+                "<'row'" +
+                "<'col-sm-12 col-md-5 d-flex align-items-center justify-content-center justify-content-md-start'i>" +
+                "<'col-sm-12 col-md-7 d-flex align-items-center justify-content-center justify-content-md-end'p>" +
+                ">",
+
+            "pageLength": 5,  // Default number of records per page
+
+            "lengthMenu": [5, 10, 25, 50],  // Options for page lengths
+        });
+    }</script>
