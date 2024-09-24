@@ -20,26 +20,26 @@ namespace DEPARTMENT.API.Controllers
 
         [AllowAnonymous]
         [HttpGet("GetDepartments")]
-        public List<Department> GetDepartments()
+        public IDataResult<List<DepartmentApiModel>> GetDepartments()
         {
             return business.GetDepartment();
         }
 
         [AllowAnonymous]
         [HttpPost("AddDepartment")]
-        public string AddDepartment([FromBody] DepartmentApiModel department)
+		public IDataResult<DepartmentApiModel> AddDepartment([FromBody] DepartmentApiModel department)
         {
             return business.AddDepartment(department);
         }
         [AllowAnonymous]
         [HttpPost("EditDepartment")]
-        public string EditDepartment([FromBody] DepartmentApiModel department)
+        public IDataResult<DepartmentApiModel> EditDepartment([FromBody] DepartmentApiModel department)
         {
             return business.EditDepartment(department);
         }
         [AllowAnonymous]
         [HttpPost("DeleteDepartment")]
-        public string DeleteDepartment([FromBody] string id)
+        public IDataResult<DepartmentApiModel> DeleteDepartment([FromBody] string id)
         {
             return business.DeleteDepartment(id);
         }

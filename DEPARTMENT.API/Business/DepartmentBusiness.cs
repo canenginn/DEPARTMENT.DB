@@ -13,58 +13,100 @@ namespace DEPARTMENT.API.Business
             context = new DepartmentContext();
         }
 
-        public List<Department> GetDepartment() {
-            var departments = context.Departments.Where(x=>x.isDeleted==false).ToList();
-            return departments;
+        public IDataResult<List<DepartmentApiModel>> GetDepartment() {
+
+            try
+            {
+
+                List<DepartmentApiModel> departmentApis = new  List<DepartmentApiModel>();
+				var departments = context.Departments.Where(x => x.isDeleted == false).ToList();
+
+                foreach (var item in departments)
+                {
+                    DepartmentApiModel department = new DepartmentApiModel
+                    {
+						id = item.id,
+						name = item.name,
+						code = item.code,
+						isDeleted = item.isDeleted
+					};
+
+					departmentApis.Add(department);
+
+				}
+				return new DataResult<List<DepartmentApiModel>>(ResultStatus.Success, "Başarılı", departmentApis);
+			}
+			catch (Exception ex)
+			{
+				return new DataResult<List<DepartmentApiModel>>(ResultStatus.Error, ex.Message);
+			}
+		
+          
         }
-        public string AddDepartment(DepartmentApiModel department)
+        public IDataResult<DepartmentApiModel> AddDepartment(DepartmentApiModel department)
         {
-            Department newDepartment = new Department();
-            if (newDepartment != null)
+            try
             {
-              
-                newDepartment.name = department.name;
-                newDepartment.code = department.code;
+                Department newDepartment = new Department();
+                if (newDepartment != null)
+                {
+                    newDepartment.name = department.name;
+                    newDepartment.code = department.code;
+                }
+				context.Departments.Add(newDepartment);
+				context.SaveChanges();
+				return new DataResult<DepartmentApiModel>(ResultStatus.Success, "Başarılı", department);
+			}
+			catch (Exception ex)
+			{
+				return new DataResult<DepartmentApiModel>(ResultStatus.Error, ex.Message);
+			}
 
-                context.Departments.Add(newDepartment);
-                context.SaveChanges();
-                return "Add is successfull";
-            }
-            else
-            {
-                return "Add is not successfull.";
-            }
-
-
-        }
-        public string EditDepartment(DepartmentApiModel department)
+		}
+        public IDataResult<DepartmentApiModel> EditDepartment(DepartmentApiModel department)
         {
-            Department updateDepartment = context.Departments.Where(x => x.id == department.id && x.isDeleted==false).FirstOrDefault();
-            if (updateDepartment != null)
-            {
-                updateDepartment.name = department.name;
-                updateDepartment.code = department.code;
-                context.Departments.UpdateRange(updateDepartment);
-                context.SaveChanges();
-                return "Update is successful.";
+			try
+			{
+				Department updateDepartment = context.Departments.Where(x => x.id == department.id && x.isDeleted == false).FirstOrDefault();
 
-            }
-            return "Update is not successful.";
-
+				if (updateDepartment != null)
+				{
+					updateDepartment.name = department.name;
+					updateDepartment.code = department.code;
+				}
+				context.Departments.UpdateRange(updateDepartment);
+				context.SaveChanges();
+				return new DataResult<DepartmentApiModel>(ResultStatus.Success, "Başarılı", department);
+			}
+			catch (Exception ex)
+			{
+				return new DataResult<DepartmentApiModel>(ResultStatus.Error, ex.Message);
+			}
         }
-        public string DeleteDepartment(string id)
+        public IDataResult<DepartmentApiModel> DeleteDepartment(string id)
         {
-            Department department = context.Departments.Where(x => x.id == Convert.ToInt32(id) && x.isDeleted == false).FirstOrDefault();
-            if (department != null)
-            {
-                department.isDeleted = true;
-                context.Departments.Update(department);
-                context.SaveChanges();
-                return "Delete is successfull";
-            }
-            return "Delete is not successfull";
+			try
+			{
+				Department department = context.Departments.Where(x => x.id == Convert.ToInt32(id) && x.isDeleted == false).FirstOrDefault();
+				if (department != null)
+				{
+					department.isDeleted = true;
+					context.Departments.Update(department);
+					context.SaveChanges();
+					return new DataResult<DepartmentApiModel>(ResultStatus.Success, "Başarılı");
+				}
+				else
+				{
+					return new DataResult<DepartmentApiModel>(ResultStatus.Warning, "Null");
+				}
+
+			}
+			catch (Exception ex)
+			{
+				return new DataResult<DepartmentApiModel>(ResultStatus.Warning, ex.Message);
+			}
 
 
-        }
+		}
     }
 }

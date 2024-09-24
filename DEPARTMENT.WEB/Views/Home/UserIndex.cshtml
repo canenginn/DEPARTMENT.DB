@@ -1,0 +1,316 @@
+﻿@using System.Security.Claims
+@{
+    ViewData["Title"] = "Home Page";
+    string userTypeId = User.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value;
+}
+<html>
+<body onload="Load();">
+
+    <div class="card mb-5 mb-xl-8" style="margin-top:20px">
+        <form id="kt_account_profile_details_form" class="form">
+            <!--begin::Body-->
+            <div class="card-body py-3">
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <input type="hidden" id="userId" class="text-dark fw-bold" />
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label required fw-semibold fs-6">Ad Soyad</label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-sm-8">
+                        <!--begin::Row-->
+                        <div class="row">
+                            <!--begin::Col-->
+                            <div class="col-sm-6 fv-row">
+                                <input type="text" id="name" name="fname" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Ad" />
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-sm-6 fv-row">
+                                <input type="text" id="lastname" name="lname" class="form-control form-control-lg form-control-solid" placeholder="Soyad" />
+                            </div>
+                            <!--end::Col-->
+                        </div>
+                        <!--end::Row-->
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                        <span class="required">Kullanıcı Adı</span>
+                        <span class="ms-1" data-bs-toggle="tooltip" title="Kullanıcı Adı Bilgisi">
+                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                        </span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <input type="text" id="username" name="username" class="form-control form-control-lg form-control-solid" placeholder="Kullanıcı Adı" />
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                        <span class="required">E-Posta</span>
+                        <span class="ms-1" data-bs-toggle="tooltip" title="E-Posta Bilgisi">
+                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                        </span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <input type="email" id="email" name="email" class="form-control form-control-lg form-control-solid" placeholder="E-Posta Adresi" />
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+                <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                        <span class="required">Rol</span>
+                        <span class="ms-1" data-bs-toggle="tooltip" title="Rol Bilgisi">
+                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                        </span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <select id="userTypeId" class="form-select form-select-solid" data-control="select2" data-placeholder="Rol Seçiniz">
+                            <option value="0">Rol Seçiniz</option>
+                            @* 	@foreach (var item in companies!)
+                            {
+                            <option value=@item.id>@item.companyName</option>
+                            } *@
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                 
+                </div>            <!--begin::Input group-->
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                        <span class="required">Departman</span>
+                        <span class="ms-1" data-bs-toggle="tooltip" title="Departman Bilgisi. (Sadece Admin Rolü Yetkilidir.)">
+                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                        </span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <select id="departmentId" class="form-select form-select-solid" data-control="select2" data-placeholder="Departman Seçiniz">
+                            <option value="0">Departman Seçiniz</option>
+                            @* 	@foreach (var item in companies!)
+                            {
+                            <option value=@item.id>@item.companyName</option>
+                            } *@
+                        </select>
+                    </div>
+                    <!--end::Col-->
+
+                </div>
+                <!--end::Input group-->
+            </div>
+            <!--begin::Body-->
+            <!--begin::Actions-->
+            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                <button type="button" class="btn btn-light btn-active-light-primary me-2 hover-elevate-up" onclick="Reset()">Temizle</button>
+                <button type="button" class="btn btn-primary hover-elevate-up" id="SaveUser" onclick="Add()">Kaydet</button>
+                <button style="display:none" type="button" class="btn btn-warning" id="UpdateUser" onclick="Update()">Güncelle</button>
+            </div>
+            <!--end::Actions-->
+        </form>
+    </div>
+
+    <div class="card mb-5 mb-xl-8" style="margin-top:20px">
+
+        <!--begin::Body-->
+        <div class="card-body py-3">
+            <!--begin::Table container-->
+            <div class="table-responsive">
+                <!--begin::Table-->
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="DTUserIndex">
+                    <!--begin::Table head-->
+                    <thead>
+                        <tr class="fw-bold text-muted">
+                            <th class="min-w-100px">Kullanıcı Adı</th>
+                            <th class="min-w-200px">Ad</th>
+                            <th class="min-w-130px">Soyad</th>
+                            <th class="min-w-130px">Mail</th>
+                            <th class="min-w-100px">Departman</th>
+                            <th class="min-w-100px">Rol</th>
+                            <th class="min-w-80px text-end"></th>
+                        </tr>
+                    </thead>
+                    <!--end::Table head-->
+                    <!--begin::Table body-->
+                    <tbody>
+                    </tbody>
+                    <!--end::Table body-->
+                </table>
+                <!--end::Table-->
+            </div>
+            <!--end::Table container-->
+        </div>
+        <!--begin::Body-->
+    </div>
+</body>
+
+
+</html>
+
+<script>
+    function Load() {
+        initializeDataTable("#DTUserIndex");
+        document.getElementById("SaveUser").style.display = "block";
+        document.getElementById("UpdateUser").style.display = "none";
+        Get();
+    }
+    function Get() {
+        $.ajax({
+            url: '/Home/GetUsers',
+            type: "GET",
+            data: {},
+            success: function (data) {
+
+                $('#DTUserIndex').DataTable().rows().remove().draw();
+
+                if (data != null) {
+
+                    $.each(data, function (i, item) {
+
+                        $('#DTUserIndex').DataTable().row.add($('<tr style="color:dark; justify-content:center; vertical-align:middle; align-items:center; text-align:center;" class="fs-7 border-bottom-0">' +
+
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.username] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.name] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.lastName] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.email] + '</div></div></td>' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.department.name] + '</div></div></td>' +
+
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.userType.type] + '</div></div></td>' +
+
+
+                            '<td><div class="d-flex justify-content-end flex-shrink-0">' +
+                            '<a href="#" onclick="LoadEmpData(\'' + [item.name] + '\',\'' + [item.lastname] + '\',\'' + [item.username] + '\',\'' + [item.departmentId] + '\',\'' + [item.userTypeId] + '\',\'' + [item.id] + '\')"  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">' +
+                            '<i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>' +
+                            '</a>' +
+                            '<a href="#" onclick="Delete(' + [item.id] + ')" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1">' +
+                            '<i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>' +
+                            '</a>' +
+                            '</div></td>' +
+
+                            '</tr>')).draw();
+
+
+                    });
+
+                }
+            }
+        });
+    }
+
+    function LoadEmpData(name, lastname, username, departmentId, userTypeId, ) {
+        document.getElementById("name").value = name;
+        document.getElementById("lastname").value = lastname;
+        document.getElementById("department").value = department;
+        document.getElementById("description").value = description;
+        document.getElementById("position").value = position;
+        // document.getElementById("isActive").checked = (isActive == 'true' ? true : false);
+        // $('#userTypeId').val(userTypeId).trigger('change');
+        $('#departmentId').val(departmentId).trigger('change');
+
+
+
+
+        document.getElementById("userId").value = id;
+
+        document.getElementById("SaveUser").style.display = "none";
+        document.getElementById("UpdateUser").style.display = "block";
+
+
+
+    }
+    function sendData(url, model, id) {
+        let data = {};
+
+        if (id == "") {
+            data = { employeeWebModel: model };
+        } else {
+            data = { id: id };
+        }
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                if (response != null) {
+                    if (response.resultStatus === 0) {
+                        Reset();
+                        Get();
+                        toastr.success("İşlem Başarılı.");
+                    } else {
+                        if (response.resultStatus === 3) {
+
+                            toastr.error("Zorunlu Alanları Doldurunuz.");
+                        }
+                        else {
+                            toastr.warning("Bir Hata Oluştu.");
+                        }
+
+                    }
+                }
+            }
+        });
+    }
+
+
+    function Add() {
+        var model = getEmployeeData();
+        sendData('/Employee/AddEmployee', model, "");
+
+    }
+
+    function Update() {
+        var model = getEmployeeData();
+        model.id = document.getElementById("employeeId").value;
+        sendData('/Employee/UpdateEmployee', model, "");
+    }
+
+    function Delete(id) {
+        sendData('/Ho/DeleteEmployee', "", id);
+    }
+    //#endregion
+
+    function Reset() {
+        // Kullanım örneği:
+        resetInputs('name', 'lastname', 'department', 'position', 'description', 'isActive', 'leavingDate', 'employeeId');
+        document.getElementById("SaveEmployee").style.display = "block";
+        document.getElementById("UpdateEmployee").style.display = "none";
+        $("#companyId").val("").trigger('change');
+        $("#facilitySelect").val("").trigger('change');
+    }
+
+
+</script>

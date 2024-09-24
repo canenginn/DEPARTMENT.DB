@@ -19,15 +19,6 @@ namespace DEPARTMENT.WEB.Controllers
             return View();
         }
 
-
-
-        [HttpGet]
-        public JsonResult GetUsers()
-        {
-            return Json(new UserBusiness().GetUsers());
-        }
-
-
         public IActionResult Privacy()
         {
             return View();

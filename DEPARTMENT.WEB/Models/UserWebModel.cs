@@ -20,10 +20,19 @@ namespace DEPARTMENT.WEB.Models
         public int userTypeId { get; set; }
 		public UserTypeWebModel? UserType { get; set; }
 
-
-
-
-
-
 	}
+    public class ResultDataUserWebModel
+    {
+        public UserWebModel Data { get; set; }
+        public int ResultStatus { get; set; }
+        public string Message { get; set; }
+        public object Exception { get; set; }
+    }
+    public class ResultDataUserWebModels
+    {
+        public List<UserWebModel> Data { get; set; }
+        public int ResultStatus { get; set; }
+        public string Message { get; set; }
+        public object Exception { get; set; }
+    }
 }

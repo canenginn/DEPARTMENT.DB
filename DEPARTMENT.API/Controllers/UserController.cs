@@ -1,5 +1,7 @@
-﻿using DEPARTMENT.API.Business;
+﻿using AutoMapper;
+using DEPARTMENT.API.Business;
 using DEPARTMENT.API.Models;
+using DEPARTMENT.DB;
 using DEPARTMENT.DB.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -12,33 +14,32 @@ namespace DEPARTMENT.API.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-         UserBusiness business;
-        public UserController() { 
-            business = new UserBusiness();  
+        UserBusiness business;
+        public UserController()
+        {
+            business = new UserBusiness();
         }
         [AllowAnonymous]
         [HttpGet("GetUsers")]
-        public List<User> GetUsers()
+        public IDataResult<List<UserApiModel>> GetUsers()
         {
-           
             return business.GetUser();
         }
-
         [AllowAnonymous]
         [HttpPost("AddUser")]
-        public string AddUser([FromBody] UserApiModel user)
+        public IDataResult<UserApiModel> AddUser([FromBody] UserApiModel user)
         {
             return business.AddUser(user);
         }
         [AllowAnonymous]
         [HttpPost("EditUser")]
-        public string EditUser([FromBody] UserApiModel user)
+        public IDataResult<UserApiModel> EditUser([FromBody] UserApiModel user)
         {
             return business.EditUser(user);
         }
         [AllowAnonymous]
         [HttpPost("DeleteUser")]
-        public string DeleteUser([FromBody] string id)
+        public IDataResult<UserApiModel> DeleteUser([FromBody] string id)
         {
             return business.DeleteUser(id);
         }

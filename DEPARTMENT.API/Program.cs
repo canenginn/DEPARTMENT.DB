@@ -7,6 +7,7 @@ using DEPARTMENT.API;
 using DEPARTMENT.API.JwtToken;
 using Newtonsoft.Json;
 using System.Text;
+using DEPARTMENT.API.AutoMapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ var Key = "58FSDG3425TG6HG45YRJRYJY234TS3EGV3GO53Y54YHY46H6J456";
 
 
 builder.Services.AddControllers();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 //builder.Services.AddControllers().AddNewtonsoftJson(options =>
 //{

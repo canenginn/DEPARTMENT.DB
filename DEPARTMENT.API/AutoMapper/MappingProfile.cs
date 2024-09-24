@@ -10,8 +10,8 @@ namespace DEPARTMENT.API.AutoMapper
 		{
 			CreateMap<User, UserApiModel>();
 			CreateMap<UserApiModel, User>();
-            CreateMap<List<User>, List<UserApiModel>>();
-            CreateMap<List<UserApiModel>, List<User>>();
+            //CreateMap<List<User>, List<UserApiModel>>();
+            //CreateMap<List<UserApiModel>, List<User>>();
 
             CreateMap<Department, DepartmentApiModel>();
 			CreateMap<DepartmentApiModel, Department>();
