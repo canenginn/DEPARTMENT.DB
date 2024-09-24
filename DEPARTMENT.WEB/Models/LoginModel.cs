@@ -11,7 +11,8 @@
         public int departmentId { get; set; }
 
 		public int userTypeId { get; set; }
-		//public UserType? UserType { get; set; }
+		public UserTypeWebModel? UserType { get; set; }
+		public DepartmentWebModel? Department { get; set; }
 
 		public string token { get; set; }
         public string email { get; set; }

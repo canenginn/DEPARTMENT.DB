@@ -8,16 +8,16 @@ namespace DEPARTMENT.API.AutoMapper
 	{
 		public MappingProfile()
 		{
-			CreateMap<User, UserApiModel>();
-			CreateMap<UserApiModel, User>();
-            //CreateMap<List<User>, List<UserApiModel>>();
-            //CreateMap<List<UserApiModel>, List<User>>();
+			//CreateMap<User, UserApiModel>();
+			//CreateMap<UserApiModel, User>();
+   //         //CreateMap<List<User>, List<UserApiModel>>();
+   //         //CreateMap<List<UserApiModel>, List<User>>();
 
-            CreateMap<Department, DepartmentApiModel>();
-			CreateMap<DepartmentApiModel, Department>();
+   //         CreateMap<Department, DepartmentApiModel>();
+			//CreateMap<DepartmentApiModel, Department>();
 
-			CreateMap<UserType, UserTypeApiModel>();
-			CreateMap<UserTypeApiModel, UserType>();
+			//CreateMap<UserType, UserTypeApiModel>();
+			//CreateMap<UserTypeApiModel, UserType>();
 
 		}
 	}

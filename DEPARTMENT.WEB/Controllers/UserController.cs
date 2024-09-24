@@ -8,13 +8,19 @@ namespace DEPARTMENT.WEB.Controllers
     public class UserController : Controller
     {
         UserBusiness userBusiness;
+        DepartmentBusiness departmentBusiness;
         public UserController()
         {
             userBusiness = new UserBusiness();
+            departmentBusiness = new DepartmentBusiness();
             
         }
         public IActionResult Index()
         {
+            List<DepartmentWebModel> departments = departmentBusiness.GetDepartments().Data;
+            ViewData["departments"] = departments;
+            //List<UserTypeWebModel> userTypes = userBusiness.GetUserTypes().Data;
+            //ViewData["userTypes"] = userTypes;
             return View();
         }
         [HttpGet]

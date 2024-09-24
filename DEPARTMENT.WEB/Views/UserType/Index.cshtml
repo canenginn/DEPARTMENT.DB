@@ -1,0 +1,230 @@
+﻿@using System.Security.Claims
+@{
+
+    // string userTypeId = User.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value;
+}
+<html>
+<body onload="Load();">
+
+    <div class="card mb-5 mb-xl-8" style="margin-top:20px">
+        <form id="kt_account_profile_details_form" class="form">
+            <!--begin::Body-->
+            <div class="card-header ribbon bg-light-info ribbon-top ribbon-vertical">
+                <div class="ribbon-label bg-white">
+                    <i class="ki-duotone ki-category text-info fs-2hx">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                        <span class="path3"></span>
+                        <span class="path4"></span>
+
+                    </i>
+                </div>
+                <div class="card-title">
+                    Rol Kayıt
+                </div>
+            </div>
+            <div class="card-body py-3">
+
+                <!--begin::Input group-->
+                <input type="hidden" id="userTypeId" class="text-dark fw-bold" />
+                <div class="row mb-6">
+                    <!--begin::Label-->
+                    <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                        <span class="required">Rol</span>
+                        <span class="ms-1" data-bs-toggle="tooltip" title="Rol Bilgisi">
+                            <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                                <span class="path3"></span>
+                            </i>
+                        </span>
+                    </label>
+                    <!--end::Label-->
+                    <!--begin::Col-->
+                    <div class="col-lg-8 fv-row">
+                        <input type="text" id="role" name="role" class="form-control form-control-lg form-control-solid" placeholder="Rol" />
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Input group-->
+          
+
+            </div>
+            <!--begin::Body-->
+            <!--begin::Actions-->
+            <div class="card-footer d-flex justify-content-end py-6 px-9">
+                <button type="button" class="btn btn-light btn-active-light-danger me-2 hover-elevate-up" onclick="Reset()">Temizle</button>
+                <button type="button" class="btn btn-light-info hover-elevate-up" id="SaveRole" onclick="Add()">Kaydet</button>
+                <button style="display:none" type="button" class="btn btn-warning" id="UpdateRole" onclick="Update()">Güncelle</button>
+            </div>
+            <!--end::Actions-->
+        </form>
+    </div>
+
+    <div class="card mb-5 mb-xl-8" style="margin-top:20px">
+        <div class="card-header ribbon bg-light-info ribbon-top ribbon-vertical">
+            <div class="ribbon-label bg-white">
+                <i class="ki-duotone ki-category text-info fs-2hx">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                    <span class="path4"></span>
+
+                </i>
+            </div>
+            <div class="card-title">
+                Roller
+            </div>
+        </div>
+        <!--begin::Body-->
+        <div class="card-body py-3">
+            <!--begin::Table container-->
+            <div class="table-responsive">
+                <!--begin::Table-->
+                <table class="table table-row-dashed table-row-gray-300 align-middle gs-0 gy-4" id="DTRoleIndex">
+                    <!--begin::Table head-->
+                    <thead>
+                        <tr class="fw-bold text-muted">
+
+                            <th class="min-w-100px">Departman Adı</th>                        
+                            <th class="min-w-80px text-end"></th>
+                        </tr>
+                    </thead>
+                    <!--end::Table head-->
+                    <!--begin::Table body-->
+                    <tbody>
+                    </tbody>
+                    <!--end::Table body-->
+                </table>
+                <!--end::Table-->
+            </div>
+            <!--end::Table container-->
+        </div>
+        <!--begin::Body-->
+    </div>
+</body>
+
+
+</html>
+
+<script>
+    function Load() {
+        initializeDataTable("#DTRoleIndex");
+        document.getElementById("SaveRole").style.display = "block";
+        document.getElementById("UpdateRole").style.display = "none";
+        Get();
+    }
+    function Get() {
+        $.ajax({
+            url: '/UserType/GetUserTypes',
+            type: "GET",
+            data: {},
+            success: function (data) {
+
+                $('#DTRoleIndex').DataTable().rows().remove().draw();
+
+                if (data.data != null) {
+                    console.log(data.data);
+                    $.each(data.data, function (i, item) {
+
+                        $('#DTRoleIndex').DataTable().row.add($('<tr style="color:dark; justify-content:center; vertical-align:middle; align-items:center; text-align:center;" class="fs-7 border-bottom-0">' +
+                            '<td><div class="d-flex align-items-center"><div class="d-flex justify-content-start flex-column fs-7 fw-bold">' + [item.type] + '</div></div></td>' +                        
+                            '<td><div class="d-flex justify-content-end flex-shrink-0">' +
+                            '<a href="#" onclick="LoadRoleData(\'' + [item.type] + '\',\'' + [item.id] + '\')"  class="btn btn-icon btn-bg-light btn-active-color-primary btn-sm me-1">' +
+                            '<i class="ki-duotone ki-pencil fs-2"><span class="path1"></span><span class="path2"></span></i>' +
+                            '</a>' +
+                            '<a href="#" onclick="Delete(' + [item.id] + ')" class="btn btn-icon btn-bg-light btn-active-color-danger btn-sm me-1">' +
+                            '<i class="ki-duotone ki-trash fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>' +
+                            '</a>' +
+                            '</div></td>' +
+
+                            '</tr>')).draw();
+
+
+                    });
+
+                }
+            }
+        });
+    }
+
+    function LoadRoleData(type, id) {
+        document.getElementById("role").value = type;
+        document.getElementById("userTypeId").value = id;
+
+        document.getElementById("SaveRole").style.display = "none";
+        document.getElementById("UpdateRole").style.display = "block";
+
+
+
+    }
+    function getData() {
+        return {
+            type: document.getElementById("role").value,
+ 
+
+
+        };
+    }
+    function sendData(url, model, id) {
+        let data = {};
+
+        if (id == "") {
+            data = { model: model };
+        } else {
+            data = { id: id };
+        }
+
+        $.ajax({
+            url: url,
+            type: "POST",
+            data: data,
+            success: function (response) {
+                 if (response != null) {
+                if (response.resultStatus === 0) {
+                    Reset();
+                    Get();
+                    toastr.success("İşlem Başarılı.");
+                } else {
+                    if (response.resultStatus === 3) {
+
+                        toastr.error("Zorunlu Alanları Doldurunuz.");
+                    }
+                    else {
+                        toastr.warning("Bir Hata Oluştu.");
+                    }
+
+                }
+            }
+            }
+        });
+    }
+
+
+    function Add() {
+        var model = getData();
+        sendData('/UserType/AddUserType', model, "");
+
+    }
+
+    function Update() {
+        var model = getData();
+        model.id = document.getElementById("userTypeId").value;
+        sendData('/UserType/UpdateUserType', model, "");
+    }
+
+    function Delete(id) {
+        sendData('/UserType/DeleteUserType', "", id);
+    }
+    //#endregion
+
+    function Reset() {
+        // Kullanım örneği:
+        resetInputs('role','userTypeId');
+        document.getElementById("SaveRole").style.display = "block";
+        document.getElementById("UpdateRole").style.display = "none";
+
+    }
+
+
+</script>

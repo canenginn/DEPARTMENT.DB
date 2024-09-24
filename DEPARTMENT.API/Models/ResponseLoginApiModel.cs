@@ -14,8 +14,10 @@ namespace DEPARTMENT.API.Models
 	
 		public int userTypeId { get; set; }
 
+        public DepartmentApiModel? Department { get; set; }
 
-		public string token { get; set; }
+        public UserTypeApiModel? UserType { get; set; }
+        public string token { get; set; }
         public string email { get; set; }
 
 

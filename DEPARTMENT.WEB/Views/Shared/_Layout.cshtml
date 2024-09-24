@@ -1,6 +1,8 @@
 ﻿@using System.Security.Claims
 @{
     string username = User.Claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
+    string role = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault().Value;
+    string department = User.Claims.Where(x => x.Type == ClaimTypes.Actor).FirstOrDefault().Value;
 
 }
 
@@ -111,9 +113,15 @@
                                             <div class="d-flex flex-column">
                                                 <div class="fw-bold d-flex align-items-center fs-6">
 
-                                                   @username
+                                                 
                                                 </div>
-
+                                                <div class="fw-bold d-flex align-items-center fs-5">
+                                                    <a data-bs-toggle="modal" data-bs-target="#ProfilePopUp" onclick="GetProfileInfo()" style="font-size:smaller">
+                                                        @username
+                                                    </a>
+                                                </div>
+                                                <a class="fw-semibold text-muted text-hover-success fs-7 ">@role</a>
+                                                <a class="text-danger fs-7">@department.ToUpper()</a>
                                             </div>
                                             <!--end::Username-->
                                         </div>
@@ -185,6 +193,124 @@
         <!--end::Page-->
     </div>
 
+    <!--Profile PopUp Start-->
+    <div class="modal fade" id="ProfilePopUp" tabindex="-1" aria-hidden="true">
+        <!--begin::Modal dialog-->
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Profilim</h3>
+                    <!--begin::Close-->
+                    <div class="btn btn-icon btn-sm btn-active-light-primary ms-2" data-bs-dismiss="modal" aria-label="Close">
+                        <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+
+                <div class="modal-body">
+                    <input type="hidden" id="userId" value="" />
+                    <input type="hidden" id="companyName" />
+                    <input type="hidden" id="subTagId" />
+                    <input type="hidden" id="tagId" />
+                    <input type="hidden" id="groupId" />
+                    <input type="hidden" id="userTypeId" />
+                    <div class="row">
+                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
+                            <!--begin::Label-->
+                            <label class="fw-semibold fs-6 mb-2">Ad</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <input type="text" name="name" id="name2" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ad">
+                            </div>
+                            <!--end::Input-->
+                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                        </div>
+                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
+                            <!--begin::Label-->
+                            <label class="fw-semibold fs-6 mb-2">Soyad</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <input type="text" id="surname2" name="surname" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Soyad">
+                            </div>
+                            <!--end::Input-->
+                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="fv-row mb-7 fv-plugins-icon-container">
+                                <!--begin::Label-->
+                                <label class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <div class="form-group">
+                                    <input type="text" id="username2" name="username" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" required>
+                                </div>
+                                <!--end::Input-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="fv-row mb-7 fv-plugins-icon-container">
+                                <!--begin::Label-->
+                                <label class="required fw-semibold fs-6 mb-2">Parola</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <div class="form-group">
+                                    <input type="text" id="password2" name="password" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Parola">
+                                </div>
+                                <!--end::Input-->
+                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
+                            <!--begin::Label-->
+                            <label class="fw-semibold fs-6 mb-2">Telefon</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <input type="text" id="phone2" name="phone" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Telefon">
+                            </div>
+                            <!--end::Input-->
+                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                        </div>
+                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
+                            <!--begin::Label-->
+                            <label class="required fw-semibold fs-6 mb-2">E-posta</label>
+                            <!--end::Label-->
+                            <!--begin::Input-->
+                            <div class="form-group">
+                                <input type="email" id="email2" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Posta">
+                            </div>
+                            <!--end::Input-->
+                            <div class="fv-plugins-message-container invalid-feedback"></div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+                <input type="hidden" name="id" id="iddd" />
+                <div class="modal-footer">
+                    <button type="button" data-bs-dismiss="modal" onclick="" class="btn btn-light-danger">Kapat</button>
+
+
+                    <button type="button" onclick="UpdateProfileInfo()" id="UpdateProfileInfo" class="btn btn-light-success">Güncelle</button>
+
+                </div>
+
+
+            </div>
+        </div>
+        <!--end::Modal dialog-->
+    </div>
     <!--end::App-->
     <!--begin::Javascript-->
     <script>var hostUrl = "assets/";</script>

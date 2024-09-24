@@ -2,13 +2,16 @@
 @{
 
     string userTypeId = User.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value;
+    List<DepartmentWebModel> departments = ViewData["departments"] as List<DepartmentWebModel>;
+    // List<UserTypeWebModel> userTypes = ViewData["userTypes"] as List<UserTypeWebModel>;
+
 }
 <html>
 <body onload="Load();">
 
     <div class="card mb-5 mb-xl-8" style="margin-top:20px">
         <form id="kt_account_profile_details_form" class="form">
-             <div class="card-header ribbon bg-light-primary ribbon-top ribbon-vertical">
+            <div class="card-header ribbon bg-light-primary ribbon-top ribbon-vertical">
                 <div class="ribbon-label bg-white">
                     <i class="ki-duotone ki-category text-primary fs-2hx">
                         <span class="path1"></span>
@@ -65,18 +68,18 @@
                     </label>
                     <!--end::Label-->
                     <div class="col-sm-8">
-                    <div class="row">
-                        <!--begin::Col-->
-                        <div class="col-sm-6 fv-row">
-                            <input type="text" id="username" name="username" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" />
+                        <div class="row">
+                            <!--begin::Col-->
+                            <div class="col-sm-6 fv-row">
+                                <input type="text" id="username" name="username" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" />
+                            </div>
+                            <!--end::Col-->
+                            <!--begin::Col-->
+                            <div class="col-sm-6 fv-row">
+                                <input type="password" id="password" name="password" class="form-control form-control-lg form-control-solid" placeholder="Parola" />
+                            </div>
+                            <!--end::Col-->
                         </div>
-                        <!--end::Col-->
-                        <!--begin::Col-->
-                        <div class="col-sm-6 fv-row">
-                            <input type="password" id="password" name="password" class="form-control form-control-lg form-control-solid" placeholder="Parola" />
-                        </div>
-                        <!--end::Col-->
-                    </div>
                     </div>
                     <!--end::Row-->
                     <!--end::Col-->
@@ -121,11 +124,10 @@
                     <div class="col-lg-8 fv-row">
                         <select id="userTypeId" class="form-select form-select-solid" data-control="select2" data-placeholder="Rol Seçiniz">
                             <option value="0">Rol Seçiniz</option>
-                            <option value=1>Admin</option>
-                            <option value=2>User</option>
-                            @* 	@foreach (var item in companies!)
+
+                          @*   @foreach (var item in userTypes!)
                             {
-                            <option value=@item.id>@item.companyName</option>
+                                <option value=@item.id>@item.type</option>
                             } *@
                         </select>
                     </div>
@@ -148,15 +150,12 @@
                     <!--begin::Col-->
                     <div class="col-lg-8 fv-row">
                         <select id="departmentId" class="form-select form-select-solid" data-control="select2" data-placeholder="Departman Seçiniz">
-                            <option value="0">Departman Seçiniz</option>
-                            <option value=1>BT</option>
-                            <option value=2>BT2</option>
-                            <option value=3>BT3</option>
-                            <option value=4>BT4</option>
-                            @* 	@foreach (var item in companies!)
+                            <option value="0">Departman</option>
+
+                            @foreach (var item in departments!)
                             {
-                            <option value=@item.id>@item.companyName</option>
-                            } *@
+                                <option value=@item.id>@item.name</option>
+                            }
                         </select>
                     </div>
                     <!--end::Col-->
@@ -176,20 +175,20 @@
     </div>
 
     <div class="card mb-5 mb-xl-8" style="margin-top:20px">
-         <div class="card-header ribbon bg-light-primary ribbon-top ribbon-vertical">
-                <div class="ribbon-label bg-white">
-                    <i class="ki-duotone ki-category text-primary fs-2hx">
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                        <span class="path3"></span>
-                        <span class="path4"></span>
+        <div class="card-header ribbon bg-light-primary ribbon-top ribbon-vertical">
+            <div class="ribbon-label bg-white">
+                <i class="ki-duotone ki-category text-primary fs-2hx">
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                    <span class="path4"></span>
 
-                    </i>
-                </div>
-                <div class="card-title">
-                    Kullanıcılar
-                </div>
+                </i>
             </div>
+            <div class="card-title">
+                Kullanıcılar
+            </div>
+        </div>
         <!--begin::Body-->
         <div class="card-body py-3">
             <!--begin::Table container-->
@@ -275,14 +274,14 @@
         });
     }
 
-    function LoadUserData(name, lastname, username,password,email, departmentId, userTypeId,id) {
+    function LoadUserData(name, lastname, username, password, email, departmentId, userTypeId, id) {
         document.getElementById("name").value = name;
         document.getElementById("lastname").value = lastname;
         document.getElementById("username").value = username;
         document.getElementById("password").value = password;
         document.getElementById("email").value = email;
         // document.getElementById("isActive").checked = (isActive == 'true' ? true : false);
-         $('#userTypeId').val(userTypeId).trigger('change');
+        $('#userTypeId').val(userTypeId).trigger('change');
         $('#departmentId').val(departmentId).trigger('change');
 
         document.getElementById("userId").value = id;
@@ -319,22 +318,22 @@
             type: "POST",
             data: data,
             success: function (response) {
-                 if (response != null) {
-                if (response.resultStatus === 0) {
-                    Reset();
-                    Get();
-                    toastr.success("İşlem Başarılı.");
-                } else {
-                    if (response.resultStatus === 3) {
+                if (response != null) {
+                    if (response.resultStatus === 0) {
+                        Reset();
+                        Get();
+                        toastr.success("İşlem Başarılı.");
+                    } else {
+                        if (response.resultStatus === 3) {
 
-                        toastr.error("Zorunlu Alanları Doldurunuz.");
-                    }
-                    else {
-                        toastr.warning("Bir Hata Oluştu.");
-                    }
+                            toastr.error("Zorunlu Alanları Doldurunuz.");
+                        }
+                        else {
+                            toastr.warning("Bir Hata Oluştu.");
+                        }
 
+                    }
                 }
-            }
             }
         });
     }
@@ -359,7 +358,7 @@
 
     function Reset() {
         // Kullanım örneği:
-        resetInputs('name', 'lastname', 'username', 'password', 'email','userId');
+        resetInputs('name', 'lastname', 'username', 'password', 'email', 'userId');
         document.getElementById("SaveUser").style.display = "block";
         document.getElementById("UpdateUser").style.display = "none";
         $("#userTypeId").val("").trigger('change');
