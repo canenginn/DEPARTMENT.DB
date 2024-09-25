@@ -1,11 +1,11 @@
 ﻿@using System.Security.Claims
 @{
     ViewData["Title"] = "Home Page";
-    string userTypeId = User.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value;
+    int userTypeId = Convert.ToInt32(User.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value);
 }
 <html>
 <body onload="Load();">
-    @if (userTypeId == "1")
+    @if (userTypeId == 1)
     {
         <div class="row g-5 g-xl-8" style="margin-top:20px">
 

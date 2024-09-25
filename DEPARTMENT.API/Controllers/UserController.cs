@@ -26,6 +26,12 @@ namespace DEPARTMENT.API.Controllers
             return business.GetUser();
         }
         [AllowAnonymous]
+        [HttpPost("GetUserById")]
+        public IDataResult<UserApiModel> GetUserById([FromBody] string id)
+        {
+            return business.GetUserById(id);
+        }
+        [AllowAnonymous]
         [HttpPost("AddUser")]
         public IDataResult<UserApiModel> AddUser([FromBody] UserApiModel user)
         {

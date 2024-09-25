@@ -72,6 +72,56 @@ namespace DEPARTMENT.API.Business
                 return new DataResult<List<UserApiModel>>(ResultStatus.Error, ex.Message);
             }
         }
+        public IDataResult<UserApiModel> GetUserById(string id)
+        {
+            UserApiModel userApis = new UserApiModel();
+            try
+            {
+                var user = context.Users.Where(x =>x.id== Convert.ToInt32(id)&& x.isDeleted == false)
+                                         .Include(x => x.Department)
+                                         .Include(x => x.UserType)
+                                         .FirstOrDefault();
+           
+                    UserApiModel userApi = new UserApiModel
+                    {
+                        id = user.id,
+                        name = user.name,
+                        lastName = user.lastName,
+                        username = user.username,
+                        email = user.email,
+                        password = user.password,
+                        departmentId = user.departmentId,
+                        userTypeId = user.userTypeId
+                    };
+
+                    if (user.UserType != null)
+                    {
+                        userApi.UserType = new UserTypeApiModel
+                        {
+                            id = user.UserType.id,
+                            type = user.UserType.type,
+                            isDeleted = user.UserType.isDeleted
+                        };
+                    }
+
+                    if (user.Department != null)
+                    {
+                        userApi.Department = new DepartmentApiModel
+                        {
+                            id = user.Department.id,
+                            name = user.Department.name,
+                            code = user.Department.code,
+                            isDeleted = user.Department.isDeleted
+                        };
+                    }
+
+                return new DataResult<UserApiModel>(ResultStatus.Success, "Başarılı", userApi);
+            }
+            catch (Exception ex)
+            {
+                return new DataResult<UserApiModel>(ResultStatus.Error, ex.Message);
+            }
+        }
         public IDataResult<UserApiModel> AddUser(UserApiModel user)
         {
 

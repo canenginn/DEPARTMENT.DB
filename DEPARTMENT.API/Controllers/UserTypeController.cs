@@ -23,6 +23,8 @@ namespace DEPARTMENT.API.Controllers
             return business.GetUserTypes();
         }
 
+
+
         [AllowAnonymous]
         [HttpPost("AddUserType")]
         public IDataResult<UserTypeApiModel> AddUserType([FromBody] UserTypeApiModel userType)

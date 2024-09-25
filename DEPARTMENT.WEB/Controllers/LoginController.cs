@@ -25,9 +25,11 @@ namespace DEPARTMENT.WEB.Controllers
                     new Claim(ClaimTypes.SerialNumber, json.token),
                     new Claim(ClaimTypes.Name, json.nameSurname),
                     new Claim(ClaimTypes.Role, json.userTypeId.ToString()),
+                    new Claim(ClaimTypes.Gender, json.departmentId.ToString()),
                     new Claim(ClaimTypes.NameIdentifier, json.username),
                     new Claim(ClaimTypes.Actor, json.Department.name),
                     new Claim(ClaimTypes.Sid, json.UserType.type),
+                    new Claim(ClaimTypes.GroupSid, json.id.ToString()),
 
                 };
                 var userIdentity = new ClaimsIdentity(claims, "login");

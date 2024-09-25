@@ -3,6 +3,9 @@
     string username = User.Claims.Where(x => x.Type == ClaimTypes.Name).FirstOrDefault().Value;
     string role = User.Claims.Where(x => x.Type == ClaimTypes.Sid).FirstOrDefault().Value;
     string department = User.Claims.Where(x => x.Type == ClaimTypes.Actor).FirstOrDefault().Value;
+    int loginUserId = Convert.ToInt32(User.Claims.Where(x => x.Type == ClaimTypes.GroupSid).FirstOrDefault().Value);
+    int userTypeId = Convert.ToInt32(User.Claims.Where(x => x.Type == ClaimTypes.Role).FirstOrDefault().Value);
+    int departmentId =Convert.ToInt32(User.Claims.Where(x => x.Type == ClaimTypes.Gender).FirstOrDefault().Value);
 
 }
 
@@ -206,103 +209,126 @@
                     </div>
                     <!--end::Close-->
                 </div>
-
+             
                 <div class="modal-body">
-                    <input type="hidden" id="userId" value="" />
-                    <input type="hidden" id="companyName" />
-                    <input type="hidden" id="subTagId" />
-                    <input type="hidden" id="tagId" />
-                    <input type="hidden" id="groupId" />
-                    <input type="hidden" id="userTypeId" />
-                    <div class="row">
-                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
-                            <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Ad</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <div class="form-group">
-                                <input type="text" name="name" id="name2" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Ad">
-                            </div>
-                            <!--end::Input-->
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
-                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
-                            <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Soyad</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <div class="form-group">
-                                <input type="text" id="surname2" name="surname" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Soyad">
-                            </div>
-                            <!--end::Input-->
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-6">
-                            <div class="fv-row mb-7 fv-plugins-icon-container">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Kullanıcı Adı</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div class="form-group">
-                                    <input type="text" id="username2" name="username" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" required>
+                    <input type="hidden" id="profileId" value="@loginUserId" class="text-dark fw-bold" />
+                    <input type="hidden" id="profiledepartmentId"  class="text-dark fw-bold" />
+                    <input type="hidden" id="profileuserTypeId"  class="text-dark fw-bold" />
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                     
+                        <!--begin::Label-->
+                        <label class="col-lg-4 col-form-label required fw-semibold fs-6">Ad Soyad</label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-sm-8">
+                            <!--begin::Row-->
+                            <div class="row">
+                                <!--begin::Col-->
+                                <div class="col-sm-6 fv-row">
+                                    <input type="text" id="profilename" name="profilename" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Ad" />
                                 </div>
-                                <!--end::Input-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="fv-row mb-7 fv-plugins-icon-container">
-                                <!--begin::Label-->
-                                <label class="required fw-semibold fs-6 mb-2">Parola</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div class="form-group">
-                                    <input type="text" id="password2" name="password" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Parola">
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col-sm-6 fv-row">
+                                    <input type="text" id="profilelastname" name="profilelastname" class="form-control form-control-lg form-control-solid" placeholder="Soyad" />
                                 </div>
-                                <!--end::Input-->
-                                <div class="fv-plugins-message-container invalid-feedback"></div>
+                                <!--end::Col-->
                             </div>
+                            <!--end::Row-->
                         </div>
-
-
+                        <!--end::Col-->
                     </div>
-                    <div class="row">
-                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
-                            <!--begin::Label-->
-                            <label class="fw-semibold fs-6 mb-2">Telefon</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <div class="form-group">
-                                <input type="text" id="phone2" name="phone" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Telefon">
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                            <span class="required">Kullanıcı Adı ve Parola</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Kullanıcı Adı ve Parola Bilgisi">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <!--begin::Col-->
+                                <div class="col-sm-6 fv-row">
+                                    <input type="text" id="profileusername" name="profileusername" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0" placeholder="Kullanıcı Adı" />
+                                </div>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col-sm-6 fv-row">
+                                    <input type="password" id="profilepassword" name="profilepassword" class="form-control form-control-lg form-control-solid" placeholder="Parola" />
+                                </div>
+                                <!--end::Col-->
                             </div>
-                            <!--end::Input-->
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
                         </div>
-                        <div class="fv-row mb-7 col-sm-6 fv-plugins-icon-container">
-                            <!--begin::Label-->
-                            <label class="required fw-semibold fs-6 mb-2">E-posta</label>
-                            <!--end::Label-->
-                            <!--begin::Input-->
-                            <div class="form-group">
-                                <input type="email" id="email2" name="email" class="form-control form-control-solid mb-3 mb-lg-0" placeholder="Posta">
-                            </div>
-                            <!--end::Input-->
-                            <div class="fv-plugins-message-container invalid-feedback"></div>
-                        </div>
+                        <!--end::Row-->
+                        <!--end::Col-->
                     </div>
-
-
-
-
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                            <span class="required">E-Posta</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="E-Posta Bilgisi">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+                        <!--begin::Col-->
+                        <div class="col-lg-8 fv-row">
+                            <input type="email" id="profileemail" name="profileemail" class="form-control form-control-lg form-control-solid" placeholder="E-Posta Adresi" />
+                        </div>
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
+                       <!--begin::Input group-->
+                    <div class="row mb-6">
+                        <!--begin::Label-->
+                        <label class="col-lg-4 col-form-label fw-semibold fs-6">
+                            <span class="required">Rol ve Departman</span>
+                            <span class="ms-1" data-bs-toggle="tooltip" title="Rol ve Departman Bilgisi">
+                                <i class="ki-duotone ki-information-5 text-gray-500 fs-6">
+                                    <span class="path1"></span>
+                                    <span class="path2"></span>
+                                    <span class="path3"></span>
+                                </i>
+                            </span>
+                        </label>
+                        <!--end::Label-->
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <!--begin::Col-->
+                                <div class="col-sm-6 fv-row">
+                                    <input type="text" id="profilerole" disabled name="profilerole" class="form-control form-control-lg form-control-solid mb-3 mb-lg-0"  />
+                                </div>
+                                <!--end::Col-->
+                                <!--begin::Col-->
+                                <div class="col-sm-6 fv-row">
+                                    <input type="text"  disabled id="profiledepartment" name="profiledepartment" class="form-control form-control-lg form-control-solid"  />
+                                </div>
+                                <!--end::Col-->
+                            </div>
+                        </div>
+                        <!--end::Row-->
+                        <!--end::Col-->
+                    </div>
+                    <!--end::Input group-->
                 </div>
-                <input type="hidden" name="id" id="iddd" />
+               
                 <div class="modal-footer">
                     <button type="button" data-bs-dismiss="modal" onclick="" class="btn btn-light-danger">Kapat</button>
-
-
-                    <button type="button" onclick="UpdateProfileInfo()" id="UpdateProfileInfo" class="btn btn-light-success">Güncelle</button>
+                    <button type="button" onclick="UpdateProfile()" id="UpdateProfile" class="btn btn-light-success">Güncelle</button>
 
                 </div>
 
@@ -330,6 +356,98 @@
 <!--end::Body-->
 </html>
 <script>
+
+    //Profile Functions
+    function GetProfileInfo() {
+        var profileId = document.getElementById('profileId').value;
+        $.ajax({
+            url: '@Url.Action("GetUserById", "User")',
+            type: "GET",
+            data: { id: profileId },
+            success: function (data) {
+                if (data != null) {            
+                    document.getElementById('profileusername').value = data.data.username;
+                    document.getElementById('profilename').value = data.data.name;
+                    document.getElementById('profilelastname').value = data.data.lastName;
+                    document.getElementById('profileemail').value = data.data.email;
+                    document.getElementById('profilepassword').value = data.data.password;
+                    document.getElementById('profilerole').value = data.data.userType.type;
+                    document.getElementById('profiledepartment').value = data.data.department.name;    
+                    document.getElementById('profiledepartmentId').value = data.data.departmentId;
+                    document.getElementById('profileuserTypeId').value = data.data.userTypeId;
+                }
+            }
+        });
+
+    }
+     function UpdateProfile() {
+
+        var Id = document.getElementById("profileId").value;
+        var Name = document.getElementById("profilename").value;       
+        var Lastname = document.getElementById("profilelastname").value;
+        var Username = document.getElementById("profileusername").value;
+        var Password = document.getElementById("profilepassword").value;
+        var Email = document.getElementById("profileemail").value;
+        var UserTypeId = document.getElementById("profileuserTypeId").value;
+        var DepartmentId = document.getElementById("profiledepartmentId").value;
+
+        var model = {
+            id: Id, 
+            name: Name,
+            lastName: Lastname,
+            username: Username,
+            password: Password,
+            email: Email,
+            departmentId:DepartmentId,
+            userTypeId:UserTypeId
+        
+        };
+
+        $.ajax({
+            url: '@Url.Action("UpdateUser", "User")',
+            type: "POST",
+            data: { model: model },
+            success: function (data) {
+               if (data.data != null) {
+                    if (data.resultStatus === 0) {
+                  
+                             Swal.fire({
+                            text: "Düzenleme Başarılı",
+                            icon: "success",
+                            buttonsStyling: false,
+                            confirmButtonText: "Kapat",
+                            timer: 5000,
+                            customClass: {
+                                confirmButton: "btn btn-success"
+                            }
+                        });
+                    } else {
+                        if (data.resultStatus === 3) {
+
+                                Swal.fire({
+                            text: "Düzenleme İşlemi Başarısız!",
+                            icon: "info",
+                            buttonsStyling: false,
+                            confirmButtonText: "Kapat",
+                            timer: 5000,
+                            customClass: {
+                                confirmButton: "btn btn-info"
+                            }
+                        });
+                        }
+                        else {
+                            toastr.warning("Bir Hata Oluştu.");
+                        }
+
+                    }
+                }
+                
+
+
+            }
+        });
+    }
+
     function resetInputs(...inputIds) {
         inputIds.forEach(id => {
             var element = document.getElementById(id);
@@ -391,4 +509,5 @@
 
             "lengthMenu": [5, 10, 25, 50],  // Options for page lengths
         });
-    }</script>
+    }
+    </script>

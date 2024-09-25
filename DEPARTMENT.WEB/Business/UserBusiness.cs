@@ -27,6 +27,27 @@ namespace DEPARTMENT.WEB.Business
             ResultDataUserWebModels result = JsonConvert.DeserializeObject<ResultDataUserWebModels>(data);
             return result;
         }
+        public ResultDataUserWebModel GetUserById(string id)
+        {
+            var message = "";
+            //zorunlu alanlar için kontrol edelim.
+            if (id == null || id == "0")
+            {
+
+                message = "404";
+                return new ResultDataUserWebModel();
+            }
+
+
+            var data = service.Post(id, "", "User/GetUserById").ToString();
+            if (data == null)
+            {
+                message = "400";
+                return new ResultDataUserWebModel();
+            }
+            ResultDataUserWebModel result = JsonConvert.DeserializeObject<ResultDataUserWebModel>(data);
+            return result;
+        }
         public ResultDataUserWebModel AddUser(UserWebModel model)
         {
             var message = "";

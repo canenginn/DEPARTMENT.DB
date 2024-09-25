@@ -30,6 +30,13 @@ namespace DEPARTMENT.WEB.Controllers
             return Json(data);
          
         }
+        public JsonResult GetUserById(string id)
+        {
+
+            var data = userBusiness.GetUserById(id);
+            return Json(data);
+
+        }
         public JsonResult AddUser(UserWebModel model)
         {
 
